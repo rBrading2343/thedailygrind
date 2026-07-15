@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Daily Grind | Independent Specialty Coffee Roasters, Bristol</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --primary: #2C221E;
+            --secondary: #8C6A5C;
+            --accent: #D4AF37;
+            --accent-light: #F7F0D8;
+            --light-bg: #FDFBF7;
+            --card-bg: #F5EFEB;
+            --text-dark: #1A1513;
+            --text-light: #6E615C;
+            --white: #FFFFFF;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Custom Text Selection Theme Color */
+        ::selection {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+        ::-moz-selection {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, .brand-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%;
+        }
+
+        /* Sticky Navigation Bar Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(253, 251, 247, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(44, 34, 30, 0.05);
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: var(--transition);
+        }
+
+        .nav-links li.active-nav a::after {
+            width: 100%;
+        }
+
+        .nav-links li.active-nav a {
+            color: var(--secondary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-btn {
+            background-color: var(--primary);
+            color: var(--white) !important;
+            padding: 10px 24px;
+            border-radius: 50px;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .nav-links .nav-btn::after {
+            display: none !important;
+        }
+
+        .burger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        /* Core SPA Architecture Switches */
+        .page-view {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            padding-top: 120px;
+            padding-bottom: 80px;
+            flex-grow: 1;
+        }
+
+        .page-view.active-page {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Home View Custom Hero Reset */
+        #home.page-view {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        /* Hero Component Structure */
+        .hero {
+            padding: 180px 0 100px 0;
+            background: linear-gradient(rgba(44, 34, 30, 0.72), rgba(44, 34, 30, 0.55)), url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=1920') no-repeat center center/cover;
+            color: var(--white);
+            text-align: center;
+            min-height: 95vh;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background-color: rgba(212, 175, 55, 0.2);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 24px;
+            line-height: 1.15;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            color: #E6E1DF;
+            font-weight: 300;
+        }
+
+        /* Global Button Classes */
+        .btn {
+            display: inline-block;
+            padding: 14px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--primary);
+            margin-right: 16px;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--white);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Global Structural Headings */
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .section-title p {
+            color: var(--text-light);
+            max-width: 60px;
+            height: 3px;
+            background-color: var(--accent);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: -45px auto 60px auto;
+        }
+
+        /* Home Features / Values Section Block */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(three, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+            padding: 60px 0;
+        }
+
+        .feature-card {
+            background-color: var(--white);
+            padding: 40px 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(44, 34, 30, 0.03);
+            transition: var(--transition);
+            border: 1px solid rgba(44, 34, 30, 0.03);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(44, 34, 30, 0.08);
+        }
+
+        .feature-icon-wrapper {
+            width: 70px;
+            height: 70px;
+            background-color: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px auto;
+            color: var(--secondary);
+            font-size: 1.6rem;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .feature-icon-wrapper {
+            background-color: var(--primary);
+            color: var(--accent);
+        }
+
+        .feature-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 14px;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Expanded Story & About Content Elements */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .about-img {
+            position: relative;
+        }
+
+        .about-img img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(44, 34, 30, 0.1);
+        }
+
+        .about-img::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            z-index: -1;
+        }
+
+        .about-text h3 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+
+        /* Sustainable Sourcing Split Grid UI */
+        .sourcing-block {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            padding: 60px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .sourcing-info h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .sourcing-info p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .sourcing-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .metric-item {
+            background-color: var(--white);
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .metric-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        /* Menu Filtering System Layout & Visuals */
+        .menu-filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background-color: var(--white);
+            border: 1px solid rgba(44, 34, 30, 0.1);
+            color: var(--text-dark);
+            padding: 10px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover, .filter-btn.active-filter {
+            background-color: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 40px;
+        }
+
+        .menu-category {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(44, 34, 30, 0.02);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .menu-category.hidden-category {
+            display: none;
+        }
+
+        .menu-category h3 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 28px;
+            border-bottom: 1px solid rgba(44, 34, 30, 0.1);
+            padding-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-category h3 i {
+            color: var(--secondary);
+            font-size: 1.25rem;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            align-items: flex-start;
+        }
+
+        .menu-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .menu-item-info {
+            padding-right: 16px;
+        }
+
+        .menu-item-info h4 {
+            font-size: 1.15rem;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag-badge {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.65rem;
+            background-color: var(--accent-light);
+            color: #8A6D0F;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .menu-item-info p {
+            font-size: 0.88rem;
+            color: var(--text-light);
+        }
+
+        .menu-price {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--secondary);
+            font-size: 1.15rem;
+            white-space: nowrap;
+        }
+
+        /* Interactive Extended Accordion FAQ Grid Block */
+        .faq-section {
+            margin-top: 100px;
+        }
+
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background-color: var(--white);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(44, 34, 30, 0.02);
+            border: 1px solid rgba(44, 34, 30, 0.02);
+            overflow: hidden;
+        }
+
+        .faq-header {
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: var(--transition);
+        }
+
+        .faq-header h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .faq-icon {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 24px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .faq-item.faq-open .faq-body {
+            padding-bottom: 24px;
+        }
+
+        .faq-item.faq-open .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Find Us & Contact View Grid Structural Upgrades */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+        }
+
+        .contact-info {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 50px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .contact-info h3 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-details {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .contact-details li {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .contact-details i {
+            font-size: 1.25rem;
+            color: var(--accent);
+            margin-top: 5px;
+        }
+
+        .contact-details p {
+            color: #E6E1DF;
+        }
+
+        .socials {
+            display: flex;
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .socials a {
+            color: var(--white);
+            background-color: rgba(255,255,255,0.08);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .socials a:hover {
+            background-color: var(--accent);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .contact-form {
+            background-color: var(--white);
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(44, 34, 30, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #E6E1DF;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(140, 106, 92, 0.1);
+        }
+
+        .contact-form .btn {
+            width: 100%;
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+
+        .contact-form .btn:hover {
+            background-color: var(--primary);
+        }
+
+        /* Back to Top Floating Button Feature */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: -60px; /* Hidden initially offscreen bounds */
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: var(--white);
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+        }
+
+        .back-to-top.visible {
+            right: 30px;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--secondary);
+            transform: translateY(-4px);
+        }
+
+        /* Footer Element */
+        footer {
+            background-color: #1A1513;
+            color: #A89F9B;
+            padding: 40px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid #2C221E;
+            margin-top: auto;
+        }
+
+        /* Global Alert Confirmation Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(44, 34, 30, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transform: scale(0.8);
+            transition: var(--transition);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            color: #4BB543;
+            margin-bottom: 20px;
+        }
+
+        .modal h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .modal-close {
+            margin-top: 24px;
+            background-color: var(--primary);
+            color: var(--white);
+            width: 100%;
+        }
+
+        /* Media Responsive Breakpoint Triggers */
+        @media (max-width: 992px) {
+            .about-grid, .sourcing-block, .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .about-img {
+                order: 2;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            .hero h1 {
+                font-size: 3.2rem;
+            }
+            .sourcing-block {
+                padding: 40px 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .burger {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 76px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 76px);
+                background-color: var(--light-bg);
+                flex-direction: column;
+                padding: 40px 24px;
+                gap: 24px;
+                transition: var(--transition);
+                box-shadow: 0 10px 20px rgba(44, 34, 30, 0.05);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links a::after {
+                display: none;
+            }
+
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .contact-info, .contact-form {
+                padding: 30px 20px;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                width: 46px;
+                height: 46px;
+            }
+            .back-to-top.visible {
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container navbar">
+            <a data-target="home" class="logo" style="cursor: pointer;">
+                <i class="fa-solid fa-mug-hot"></i>
+                <span>The Daily Grind</span>
+            </a>
+            <button class="burger" id="burgerBtn" aria-label="Toggle Navigation Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li class="active-nav" data-page="home"><a data-target="home">Home</a></li>
+                <li data-page="about"><a data-target="about">Our Story</a></li>
+                <li data-page="menu"><a data-target="menu">Menu</a></li>
+                <li data-page="contact"><a data-target="contact">Find Us</a></li>
+                <li><a data-target="contact" class="nav-btn">Contact Form</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="home" class="page-view active-page">
+        <section class="hero">
+            <div class="container hero-content">
+                <span class="hero-badge">Specialty Coffeehouse</span>
+                <h1>Artisanal Coffee in the Heart of Bristol</h1>
+                <p>Sustainably sourced, locally roasted, and brewed to perfection by people who love coffee as much as you do.</p>
+                <div>
+                    <a data-target="menu" class="btn btn-primary">View Full Menu</a>
+                    <a data-target="contact" class="btn btn-secondary">Visit Our Roastery</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                    <h3>100% Direct Trade</h3>
+                    <p>We skip middle corporate brokers to trade directly with smallholder coffee farms, ensuring premium payouts for growers.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fa-solid fa-fire-flame-curved"></i>
+                    </div>
+                    <h3>Roasted in Bristol</h3>
+                    <p>Our micro-roasting team profiles beans weekly to map out optimum sweetness and flavor clarity.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <h3>Community First</h3>
+                    <p>A welcoming neighborhood destination running entirely on eco-friendly green energy tariffs and living wages.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="about" class="page-view">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Story</h2>
+                <p></p>
+            </div>
+            
+            <div class="about-grid">
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=800" alt="Barista pouring latte art smoothly">
+                </div>
+                <div class="about-text">
+                    <h3>Crafting Community, One Cup at a Time</h3>
+                    <p>Founded in 2021 on Gloucester Road, The Daily Grind started with a simple mission: to serve independent specialty coffee without the pretension. We micro-roast our beans in small batches right here in Bristol, highlighting the unique flavour profiles of each origin.</p>
+                    <p>We work directly with ethical smallholder farms in Colombia, Ethiopia, and Peru, ensuring every bean we source supports sustainable agricultural communities. Whether you're grabbing your morning flat white or settling in for a slow Saturday filter coffee, you're part of our journey.</p>
+                </div>
+            </div>
+
+            <div class="sourcing-block">
+                <div class="sourcing-info">
+                    <h3>Transparent Sustainability Metrics</h3>
+                    <p>We believe great coffee shouldn't leave an opaque footprints. Every batch of single-origin coffee bean can be tracked back directly to its originating cooperative estate.</p>
+                    <p>We supply reusable coffee bags for our wholesale customers, reward dynamic discounts for keep-cup drop-ins, and recycle all organic coffee waste grounds into local community garden fertilizers across Bristol.</p>
+                </div>
+                <div class="sourcing-metrics">
+                    <div class="metric-item">
+                        <div class="metric-number">100%</div>
+                        <div class="metric-label">Direct Trade</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number">£4.20</div>
+                        <div class="metric-label">Avg. Price/lb Paid</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number">0%</div>
+                        <div class="metric-label">Landfill Waste</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number">12k+</div>
+                        <div class="metric-label">Happy Locals</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="menu" class="page-view">
+        <div class="container">
+            <div class="section-title">
+                <h2>The Menu</h2>
+                <p></p>
+            </div>
+            <p class="section-subtitle">Fresh artisanal bakes and precision-extracted caffeine, customized daily for your preference.</p>
+            
+            <div class="menu-filter-container">
+                <button class="filter-btn active-filter" data-filter="all">Show All Menu</button>
+                <button class="filter-btn" data-filter="drinks">Espresso & Specialties</button>
+                <button class="filter-btn" data-filter="food">Bakery & Kitchen</button>
+            </div>
+
+            <div class="menu-grid">
+                <div class="menu-category" data-cat="drinks">
+                    <h3><i class="fa-solid fa-mug-hot"></i> Espresso Bar</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Espresso / Macchiato</h4>
+                            <p>Our seasonal House Blend</p>
+                        </div>
+                        <span class="menu-price">£2.80</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Flat White <span class="tag-badge">Popular</span></h4>
+                            <p>Double shot with velvety microfoam</p>
+                        </div>
+                        <span class="menu-price">£3.40</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Latte / Cappuccino</h4>
+                            <p>Rich espresso, balanced milk texture</p>
+                        </div>
+                        <span class="menu-price">£3.60</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>V60 Pour Over <span class="tag-badge">Single Origin</span></h4>
+                            <p>Single-origin rotating micro-lots</p>
+                        </div>
+                        <span class="menu-price">£4.20</span>
+                    </div>
+                </div>
+
+                <div class="menu-category" data-cat="drinks">
+                    <h3><i class="fa-solid fa-sparkles"></i> House Specialties</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Iced Maple Matcha</h4>
+                            <p>Ceremonial grade matcha, pure maple syrup</p>
+                        </div>
+                        <span class="menu-price">£4.50</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Hot Honey Oat Latte <span class="tag-badge">Signature</span></h4>
+                            <p>Espresso infused with local organic honey & chili</p>
+                        </div>
+                        <span class="menu-price">£4.20</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>70% Dark Hot Chocolate</h4>
+                            <p>Single origin flakes melted into whole milk</p>
+                        </div>
+                        <span class="menu-price">£3.90</span>
+                    </div>
+                </div>
+
+                <div class="menu-category" data-cat="food">
+                    <h3><i class="fa-solid fa-croissant"></i> Kitchen & Bakery</h3>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Sourdough Pastries</h4>
+                            <p>Baked fresh daily by Pinkmans Bakery</p>
+                        </div>
+                        <span class="menu-price">From £3.20</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Smashed Avocado Toast <span class="tag-badge">Vegan Opt</span></h4>
+                            <p>Chili flakes, poached egg, local sourdough</p>
+                        </div>
+                        <span class="menu-price">£8.50</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <h4>Cinnamon & Cardamom Bun</h4>
+                            <p>Our signature Nordic-style house bun</p>
+                        </div>
+                        <span class="menu-price">£3.80</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-section">
+                <div class="section-title">
+                    <h2>Menu & Sourcing FAQs</h2>
+                    <p></p>
+                </div>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <div class="faq-header">
+                            <h4>Do you offer dairy alternatives?</h4>
+                            <i class="fa-solid fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-body">
+                            <p>Yes, absolutely. We offer organic oat, almond, and soy alternatives. We source our oat milk from Minor Figures, engineered to complement microfoam architecture perfectly without masking underlying roasting traits.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-header">
+                            <h4>Are your bakery products gluten-free?</h4>
+                            <i class="fa-solid fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-body">
+                            <p>We offer rotating gluten-free treats daily, including fudge brownies and almond cakes. However, since our partner bakeries utilize traditional flour, cross-contamination paths might exist.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-header">
+                            <h4>Can I buy your whole beans to grind at home?</h4>
+                            <i class="fa-solid fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-body">
+                            <p>Yes! We sell retail bags (250g and 1kg) of our seasonal House Blend and rotating Single Origins directly over the bar. Our baristas can grind them to your specific brew method setup if needed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="contact" class="page-view">
+        <div class="container">
+            <div class="section-title">
+                <h2>Get in Touch & Visit</h2>
+                <p></p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div>
+                        <h3>Come On In</h3>
+                        <p>We don't take reservations—just pull up a chair, crack open a book, and relax.</p>
+                        <ul class="contact-details">
+                            <li>
+                                <i class="fa-solid fa-location-dot"></i>
+                                <div>
+                                    <strong>Address</strong>
+                                    <p>142 Gloucester Road, Bishopston,<br>Bristol, BS7 8NT</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-phone"></i>
+                                <div>
+                                    <strong>Phone Number</strong>
+                                    <p>+44 117 942 8392</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-clock"></i>
+                                <div>
+                                    <strong>Opening Hours</strong>
+                                    <p>Mon - Fri: 07:30 - 16:00<br>Sat - Sun: 08:30 - 17:00</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="socials">
+                        <a href="#" aria-label="Instagram Page"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook Page"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Threads Profile"><i class="fa-brands fa-threads"></i></a>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <form id="coffeeContactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" required placeholder="Alex Turner">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" required placeholder="alex@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="enquiryType">Enquiry Type</label>
+                            <select id="enquiryType" required>
+                                <option value="" disabled selected>Select an option...</option>
+                                <option value="general">General Coffeehouse Hello</option>
+                                <option value="wholesale">Wholesale Supply Queries</option>
+                                <option value="event">Private Event Space Hire</option>
+                                <option value="careers">Careers & Barista Roles</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" rows="5" required placeholder="Tell us how we can help you..."></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Secure Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <button class="back-to-top" id="backToTopBtn" aria-label="Back to Top Scroll Button">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 The Daily Grind Coffee Ltd. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <i class="fa-solid fa-circle-check modal-icon"></i>
+            <h3>Message Sent Successfully!</h3>
+            <p>Thanks for reaching out. A human from our shop will look over your details and get back to you within 24 hours.</p>
+            <button class="btn modal-close" id="closeModalBtn">Close Window</button>
+        </div>
+    </div>
+
+    <script>
+        // Core View DOM Hooks
+        const burgerBtn = document.getElementById('burgerBtn');
+        const navLinks = document.getElementById('navLinks');
+        const burgerIcon = burgerBtn.querySelector('i');
+        const pages = document.querySelectorAll('.page-view');
+        const navItems = document.querySelectorAll('.nav-links li[data-page]');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        
+        // Modal & Form Elements
+        const contactForm = document.getElementById('coffeeContactForm');
+        const successModal = document.getElementById('successModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        /* 1. SPA CLIENT-SIDE ROUTER ROUTINE */
+        function navigateToPage(pageId) {
+            // Update Navigation Menu Active Classes
+            navItems.forEach(item => {
+                if (item.getAttribute('data-page') === pageId) {
+                    item.classList.add('active-nav');
+                } else {
+                    item.classList.remove('active-nav');
+                }
+            });
+
+            // Update DOM View Visibility
+            pages.forEach(page => {
+                if (page.id === pageId) {
+                    page.classList.add('active-page');
+                } else {
+                    page.classList.remove('active-page');
+                }
+            });
+
+            // Immediately reset scroll window viewport to top
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        // Click Interceptor targeting page attribute mutations
+        document.body.addEventListener('click', (e) => {
+            const targetPageId = e.target.getAttribute('data-target');
+            if (targetPageId) {
+                e.preventDefault();
+                navigateToPage(targetPageId);
+                
+                // Close mobile dropdown view container
+                navLinks.classList.remove('active');
+                burgerIcon.classList.remove('fa-xmark');
+                burgerIcon.classList.add('fa-bars');
+            }
+        });
+
+        /* 2. BURGER RESPONSIVE TOGGLE OVERRIDE */
+        burgerBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')) {
+                burgerIcon.classList.remove('fa-bars');
+                burgerIcon.classList.add('fa-xmark');
+            } else {
+                burgerIcon.classList.remove('fa-xmark');
+                burgerIcon.classList.add('fa-bars');
+            }
+        });
+
+        /* 3. DYNAMIC BACK TO TOP FUNCTIONALITY */
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 350) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        /* 4. MENU CATEGORY FILTER ACTION ROUTINE */
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const menuCategories = document.querySelectorAll('.menu-category');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active styling states
+                filterButtons.forEach(fBtn => fBtn.classList.remove('active-filter'));
+                btn.classList.add('active-filter');
+
+                const targetFilter = btn.getAttribute('data-filter');
+
+                menuCategories.forEach(cat => {
+                    if (targetFilter === 'all' || cat.getAttribute('data-cat') === targetFilter) {
+                        cat.classList.remove('hidden-category');
+                    } else {
+                        cat.classList.add('hidden-category');
+                    }
+                });
+            });
+        });
+
+        /* 5. INTERACTIVE ACCORDION INTERFACES (FAQs) */
+        const faqHeaders = document.querySelectorAll('.faq-header');
+        
+        faqHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const parentItem = header.parentElement;
+                const body = parentItem.querySelector('.faq-body');
+                
+                if (parentItem.classList.contains('faq-open')) {
+                    body.style.maxHeight = '0px';
+                    parentItem.classList.remove('faq-open');
+                } else {
+                    // Close other opened FAQs optionally for layout hygiene
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        item.classList.remove('faq-open');
+                        item.querySelector('.faq-body').style.maxHeight = '0px';
+                    });
+
+                    parentItem.classList.add('faq-open');
+                    body.style.maxHeight = body.scrollHeight + 'px';
+                }
+            });
+        });
+
+        /* 6. CONTACT FORM EMULATION CONSOLE */
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            successModal.classList.add('active');
+            contactForm.reset();
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            successModal.classList.remove('active');
+        });
+
+        window.addEventListener('click', (e) => {
+            if(e.target === successModal) {
+                successModal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
